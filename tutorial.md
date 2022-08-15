@@ -1,15 +1,31 @@
 # <div style="text-align:center"> GIT TUTORIJAL</div>
 
 ## SADRŽAJ
-* <a href="#info">Osnovne informacije</a>
-* <a href="#installation">Instalacija</a>
-* <a href="#configuration">Konfiguracija</a>
-* <a href="#initialization">Inicijalizacija i Workflow</a>
-* <a href="#staging">Staging okruženje</a>
-* <a href="#commit">Git Commit</a>
-* <a href="#help">Git Help</a>
-* <a href="#branch">Git Branch</a>
-* <a href="#merge">Git Merge</a>
+* ### GIT
+  * <a href="#info">Osnovne informacije</a>
+  * <a href="#installation">Instalacija</a> 
+  * <a href="#configuration">Konfiguracija</a>
+  * <a href="#initialization">Inicijalizacija i Workflow</a>
+  * <a href="#staging">Staging okruženje</a>
+  * <a href="#commit">Git Commit</a>
+  * <a href="#help">Git Help</a>
+  * <a href="#branch">Git Branch</a>
+  * <a href="#merge">Git Merge</a>
+* ### GITHUB
+  * <a href="#github_info">Osnovne informacije</a>
+  * <a href="#github_configuration">Stavljanje projekta na GitHub</a>
+  * <a href="#github_pull">Git pull sa GitHuba</a>
+  * <a href="#github_fetch">Git Fetch sa GitHuba</a>
+  * <a href="#github_merge">Git Merge sa GitHuba</a>
+  * <a href="#github_push">Git Push sa GitHubom</a>
+  * <a href="#github_workflow">Git i GitHub Workflow</a>
+* ### GITIGNORE
+  * <a href="#gitignore">Gitignore</a>
+* ### GIT UNDO OPERACIJE
+  * <a href="#git_revert">Git revert</a>
+  * <a href="#git_reset">Git reset</a>
+  * <a href="#git_ammend">Git ammend</a>
+
 
 ### <div id="info">Git je sistem za kontrolu verzija projekta. Git olakšava praćenje promjena u kodu kao i kolaboraciju između programera.</div>
 
@@ -545,4 +561,318 @@ Na kraju možemo i obrisati hello-world branch.
 git branch -d hello-world
 ```
 
+## <div id="github_info"> GITHUB TUTORIJAL </div>
+
+Github je dizajniran kao usluga hostinga Git repozitorija, odnosno online baza podataka koja vam omogućuje da pratite i dijelite svoje Git projekte kontrole verzija izvan lokalnog računara. GitHub nudi sve osobine i prednosti Gita, ujedno proširuje osnovnu funkcionalnost Gita. Predstavlja intuitivno, grafički predstavljeno sučelje i sadrži ugrađene alate za kontrolu i upravljanje zadacima. GitHub omogućuje korisniku da daljinski pristupa sa bilo kojeg računara. Preko Githuba možete dijeliti svoj kod sa drugima i zajedno raditi na projektima. Dostupna je i GitHub desktop aplikacija.
+
+Osim GitHuba za Git hosting se koriste GitLab, BitBucket, SourceForge, itd.
+
+### <div id="github_configuration">KONFIGURACIJA</div>
+
+Prvi korak je kreiranje profila na: https://github.com/.
+
+Nakon toga kreiramo novi repozitorij.
+
+<img src="images/GitHub1.png"/>
+
+Unesemo željene informacije o repozitoriju.
+
+<img src="images/GitHub2.png"/>
+
+Sada imamo na jednoj strani lokalni folder sa projektom, a na drugoj strani GitHub repozitorij na kojeg želimo postaviti taj projekat.
+
+<img src="images/GitHub3.png"/>
+
+### <div id="github_setting_project">STAVLJANJE PROJEKTA NA GITHUB</div>
+
+Ukoliko želimo kreirati novi repozitorij na lokalu pa onda postaviti podatke na GitHub koristimo sljedeće korake:
+
+```
+echo "# praksa" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/zinaid/praksa.git
+git push -u origin main
+```
+
+Ako želimo poslati već postojeći lokalni repozitorij to radimo na sljedeći način:
+
+```
+git remote add origin https://github.com/zinaid/praksa.git
+git branch -M main
+git push -u origin main
+```
+
+Kroz grafičko sučelje GitHuba možemo editovati kod nakon čega on od nas traži da uradimo commit, isto kroz sučelje.
+
+### <div id="github_pull">GIT PULL SA GITHUBA</div>
+
+Ako radimo sa više ljudi na projektu onda je potrebno prije početka rada povući zadnje izmjene sa GitHuba na našu lokalnu instancu, a to radimo sa naredbom:
+
+```
+git pull
+```
+
+Naredba ```git pull``` je kombinacija poznatih naredbi ```git fetch``` i ```git merge```.
+
+### <div id="github_fetch">GIT FETCH</div>
+
+Git fetch kupi svu historiju promjena na praćenom branch-u. Na našem lokalnom Gitu fetch gleda šta se sve promjenilo na GitHub-u.
+
+```
+git fetch origin
+```
+
+Sada možemo provjeriti status kako bi vidjeli odnos našeg lokalnog repozitorija (main) i GitHuba-a (origin/main).
+
+```
+git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   images/GitHub2.png
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Vidimo da su saglasni. Promjene možemo vidjeti i sa ```diff``` naredbom koja pokazuje razlike u kodu i fajlovima.
+
+```
+git diff origin/main
+diff --git a/images/GitHub2.png b/images/GitHub2.png
+index f0c61a1..9858f3b 100644
+Binary files a/images/GitHub2.png and b/images/GitHub2.png differ
+```
+
+### <div id="github_merge">GIT MERGE</div>
+
+Merge kombinira trenutni branch sa specificiranim branchom. Ovdje ćemo uraditi merge našeg trenutnog brancha (main) sa origin/main.
+
+Ako želimo preskočiti ovu proceduru i odjednom odraditi fetch i merge koristimo naredbu pull.
+
+### <div id="github_push">GIT PUSH</div>
+
+Push korismo kad želimo publishati fajlove na GitHub. Napravimo izmjenu u fajlu test.html tako što ćemo dodati novi paragraf.
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello World!</title>
+</head>
+<body>
+
+<h1>Hello world!</h1>
+<p>This is the first file in my new Git Repo.</p>
+
+<p>New lineo.</p>
+<button>DUGME</button>
+<button>EDIT</button>
+
+<p>Test za GitHub.</p>
+<p>These are new changes.</p>
+
+</body>
+</html>
+```
+
+Prvo uradimo commit promjena.
+
+```
+git commit -a -m "Updated test.html"
+[main be745ea] Updated test.html
+ 2 files changed, 2 insertions(+)
+```
+
+Nakon toga možemo vidjeti status:
+
+```
+git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+Sada radimo push na GitHub sa ```git push origin```.
+
+<img src="images/GitHub4.png"/>
+
+### <div id="github_pull">GIT PULL</div>
+
+Branch se može kreirati kroz grafičko sučelje na GitHub-u i potrebno je precizirati sa kojeg drugog brancha će povući stanje.
+
+<img src="images/GitHub5.png"/>
+
+Ovaj branch se može povući na lokalni repozitorij sa naredbom 
+
+```
+git pull
+From https://github.com/zinaid/praksa
+ * [new branch]      design     -> origin/design
+Already up to date.
+```
+
+Sve dostupne branchove možemo provjeriti sa:
+
+```
+git branch -a
+* main
+  remotes/origin/design
+  remotes/origin/main
+```
+
+Vidimo da nam je design branch dostupan samo remote, a to ćemo promjeniti sa
+
+```
+git checkout design
+Switched to a new branch 'design'
+branch 'design' set up to track 'origin/design'.
+```
+
+Hajmo sada kreirati novi branch lokalno i pushati ga na GitHub repozitorij.
+
+```
+git checkout -b test-branch
+```
+
+Taj branch ćemo postaviti na GitHub sa naredbom:
+
+```
+git push origin test-branch
+```
+
+Uradimo neku promjenu na GitHub branchu test-branch i vidjet ćemo na GitHub-u obavijest da je urađena izmjena na branchu test-branch i da je jedan commit ispred main-a i da imamo mogućnost za Compare & Pull.
+
+<img src="images/GitHub6.png"/>
+
+Nakon potvrde izmjena i izvršavanja merga, dodatni branch je moguće izbrisati.
+
+### <div id="github_workflow">WORKFLOW</div>
+
+Ovdje će biti opisan standardni workflow sa Git-om i GitHub-om. Workflow je zasnovan na kreiranju branchova. Funkcionira na sljedeći način:
+
+* Napravi novi Branch
+* Napravi promjene i dodaj Commite
+* Kreiraj Pull Request
+* Review
+* Deploy
+* Merge
+
+GitHub se može koristiti i kao host za vaše stranice: https://www.w3schools.com/git/git_remote_pages.asp?remote=github.
+
+Pored pobrojanih radnji moguće je i doprinijeti razvoju pojedinih repozitorija sa:
+* https://www.w3schools.com/git/git_remote_fork.asp?remote=github
+* https://www.w3schools.com/git/git_clone.asp?remote=github
+* https://www.w3schools.com/git/git_remote_send_pull_request.asp?remote=github
+
+## <div id="gitignore">GITIGNORE</div>
+
+Kada dijelimo kod, često ima fajlova ili dijelova projekta koje ne želimo dijeliti, a to su najčešće logovi, privremeni fajlovi, skriveni fajlovi, privatni fajlovi itd. Git koristi .gitignore fajl za preciziranje koje fajlove ne treba pratiti. Gitignore fajl je praćen od strane git-a.
+
+Gitignore fajl dodajemo u root projekta ```touch .gitignore```. I u taj fajl pišemo pravila jedno ispod drugog.
+
+Ignoriranje svih logova pravimo sa 
+
+```
+# ignore ALL .log files
+* .log
+```
+
+Ignoriranje svega u temp folderu pravimo sa
+
+```
+temp/
+```
+
+Moguće je imati više .gitignore fajlova u poddirektorijima i oni vrijede samo za te direktorije.
+
+Listu pravila za .gitignore je moguće pronaći na: https://www.w3schools.com/git/git_ignore.asp?remote=github.
+
+Moguće je ignorirati fajlove ili foldere ali ne prikazivati to u distribuiranom gitignore fajlu. Ova pravila su specificirana u .git/info/exclude fajlu. Funkcionira kao i .gitignore samo nije vidljivo ostalima.
+
+Za komunikaciju se najčešće koristi HTTPS, ali je moguće koristiti i SSH:
+https://www.w3schools.com/git/git_security_ssh.asp?remote=github
+https://www.w3schools.com/git/git_remote_add_ssh.asp?remote=github
+
+## <div id="git_undo">GIT UNDO OPERACIJE</div>
+
+### <div id="git_revert">GIT REVERT</div>
+
+Git ```revert``` je komanda koju koristimo kada se želimo vratiti na prethodni commit i dodati ga kao novi commit, čuvajući log neokrnjen.
+
+Prvi korak je da pronađemo prethodni commit. Korak dva je da to iskoristimo i napravimo novi commit.
+
+<img src="images/revert1.png">
+
+Napravimo sad neku izmjenu kao što je npr. brisanje fajla test2.txt iz repozitorija. Uradimo commit nakon toga i sljedeći korak nam je pronaći commit u logu na koji se želimo vratiti. To radimo sa ```git log``` a kako ne bi dobili dug ispis koristimo ```git log --oneline``` gdje dobijamo informaciju o commit poruci i commit hash.
+
+```
+git log --oneline
+c78611e (HEAD -> test-branch) Just a regular update, definitely no accidents here...
+13ed3aa (origin/test-branch, origin/main, origin/design, main, design) New changes on test.html
+be745ea Updated test.html
+9728447 Added new files
+c0165cf (origin/master, master) merged with hello-world
+d739dbd added new files and button
+e5b006e fixed small bug
+624b767 Dodani novi fajlovi i dugme.
+a3cd8e4 Updated test.html with a new line
+a8dfc6d First commit
+```
+Želimo se naprimjer vratiti na prethodni commit 13ed3aa sa porukom New changes on test.html. To radimo sa ```git revert HEAD --no-edit```. Dakle HEAD nas vraća na prethodni commit, dok naredba no edit daje do znanja da preuzimamo poruku tog commita. 
+
+Da bi se vratili unazad nekoliko koraka koristimo sljedeću naredbu, gdje x označava 1, 2, odnosno mjesto gdje se želimo vratiti.
+
+```
+git revert HEAD~x
+```
+
+### <div id="git_reset">GIT RESET</div>
+
+Git reset se koristi za vraćanje na neki commit, bez pravljenja novog commita, odbacujući sve izmjene urađene prije tog koraka.
+
+<img src="images/revert2.png">
+
+Neka imamo sljedeći log
+
+```
+git log --oneline
+bb03cb1 (HEAD -> main) Reupload files
+be745ea Updated test.html
+9728447 Added new files
+c0165cf (origin/master, master) merged with hello-world
+d739dbd added new files and button
+e5b006e fixed small bug
+624b767 Dodani novi fajlovi i dugme.
+a3cd8e4 Updated test.html with a new line
+a8dfc6d First commit
+```
+
+Ako se odlučimo vratiti na neki od commita, biramo commit hash na koji želimo da se vratimo i to radimo na sljedeći način:
+
+```
+git reset 9728447
+```
+Sve naknadne promjene nestaju iz log-a, ali je i dalje prisutno u Git-u i moguće se vratiti na njih ukoliko se zna commit hash.
+
+### <div id="git_ammend">GIT AMEND</div>
+
+Naredba ```commit --amend``` se koristi za modifikaciju zadnjeg commit-a. Kombinira promjene u staging okruženju sa zadnjim commitom i kreira novi commit. Taj novi commit u potpunosti zamjeni zadnji commit.
+
+Primjer toga bi bila npr. promjena commit poruke.
+
+```
+git commit --amend -m "Changing message"
+```
+
+Dodavanje fajlova sa --amend radi isto kao i poruka, ali se prethodno dodaju na staging environment prije commiting.
+
+Velika olakšica u radu sa svime prikazanim u ovom tutorijalu je svakako integracija git i github-a u VisualStudio Code kao i korištenje GitHub Desktop aplikacije.
 
